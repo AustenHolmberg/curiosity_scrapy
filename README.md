@@ -1,1 +1,2 @@
-This is a scraper / timelapse generator for the images taken by the Curiosity rover.
+# Curiosity Timelapse Generator
+## This is a Python CLI that scrapes images taken by the Curiosity rover's cameras, and generates timelapses.
