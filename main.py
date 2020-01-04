@@ -1,9 +1,10 @@
-import os, requests, hashlib, ffmpy, settings, urllib.request
+import os, requests, hashlib, subprocess, settings, urllib.request
 from scrapy import signals
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy.signalmanager import SignalManager
 from scrapy_base.spiders.image import ImageSpider
+from utils import ext_from_url
 
 results = []
 class ImagePipeline:
@@ -31,23 +32,42 @@ def scrape_date_range(start_date, end_date, cams, filters=[]):
     return results
 
 def curiosity_scrapy():
-    options = ['2019-12-01', '2019-12-05', settings.FRONT_CAMS, ['FHAZ_RIGHT_B']]
-    img_dir = ''.join([options[0], options[1], ''.join(options[2]), ''.join(options[3])])
-    img_dir = hashlib.md5(img_dir.encode('utf-8')).hexdigest()
-    abs_img_dir = os.path.join(settings.IMG_DIR, img_dir)
-    if not os.path.exists(abs_img_dir):
-        os.mkdir(abs_img_dir)
+    options = ['2019-12-10', '2019-12-31', settings.LEFT_NAV_CAMS, []]
+
+    for DIR in [settings.IMAGES_DIR, settings.VIDEOS_DIR]:
+        if not os.path.exists(DIR):
+            os.mkdir(DIR)
+
+    vid_name = ''.join([options[0], options[1], ''.join(options[2]), ''.join(options[3])])
+    vid_hash = hashlib.md5(vid_name.encode('utf-8')).hexdigest()
+    vid_name = vid_hash+'.mp4'
+    list_file = vid_hash+'.txt'
+    abs_vid_path = os.path.join(settings.VIDEOS_DIR, vid_name)
+    abs_list_file = os.path.join(settings.VIDEOS_DIR, list_file)
 
     images = scrape_date_range(*options)
-    existing_images = os.listdir(settings.IMG_DIR)
+    if len(images) == 0:
+        return "API gave no images"
+
+    downloaded_images = os.listdir(settings.IMAGES_DIR)
+    
+    print(str("{} total images".format(len(images))))
+    image_paths = []
     for image in images:
-        if image['id'] not in existing_images:
-            urllib.request.urlretrieve(image['link'], os.path.join(abs_img_dir, image['id'] + '.jpg'))
+        filetype = ext_from_url(image['url'])
+        filename = image['id'] + filetype
+        abs_img_path = os.path.join(settings.IMAGES_DIR, filename)
 
-    ff = ffmpy.FFmpeg(
-        inputs={abs_img_dir+'/*.jpg': None},
-        outputs={'output.mp4': '-pattern_type glob'}
-    )
-    ff.run()
+        # Download the image if we haven't already done so.
+        if filename not in downloaded_images:
+            urllib.request.urlretrieve(image['url'], abs_img_path)
+        image_paths.append(abs_img_path)
 
-curiosity_scrapy()
+    with open(abs_list_file, 'w') as list_file_out:
+        list_file_out.writelines(["file '{}'\n".format(path) for path in image_paths])
+    os.chmod(abs_list_file, 0o775)
+
+    subprocess.call(settings.FFMPEG_COMMAND.format(abs_list_file, abs_vid_path), shell=True)
+    return "OK"
+
+print(curiosity_scrapy())

@@ -1,7 +1,8 @@
 import os
 
 ROOT_NASA_URL = 'https://mars.jpl.nasa.gov'
-BASE_API_URL = 'https://mars.jpl.nasa.gov/api/v1/raw_image_items/?order=sol+asc%2Cinstrument_sort+desc%2Csample_type_sort+desc%2C+date_taken+asc&per_page=50&page=0&condition_1=msl%3Amission&condition_2={start_date}%3Adate_taken%3Agte&condition_3={end_date}%3Adate_taken%3Alt&search={filter_str}&extended=thumbnail%3A%3Asample_type%3A%3Anoteq'
+BASE_API_URL = 'https://mars.jpl.nasa.gov/api/v1/raw_image_items/?order=sol+asc%2Cinstrument_sort+desc%2Csample_type_sort+desc%2C+date_taken+asc&per_page=99999&page=0&condition_1=msl%3Amission&condition_2={start_date}%3Adate_taken%3Agte&condition_3={end_date}%3Adate_taken%3Alt&search={filter_str}&extended=thumbnail%3A%3Asample_type%3A%3Anoteq'
+FFMPEG_COMMAND = 'ffmpeg -f concat -safe 0 -i {} -filter:v setpts=5.5*PTS {}'
 CAMS = [
     'FHAZ_RIGHT_A',
     'FHAZ_LEFT_A',
@@ -18,5 +19,7 @@ CAMS = [
 ]
 FRONT_CAMS = CAMS[:4]
 REAR_CAMS = CAMS[4:8]
-NAV_CAMS = CAMS[8:]
-IMG_DIR = os.path.join(os.getcwd(), 'images')
+LEFT_NAV_CAMS = CAMS[8:10]
+RIGHT_NAV_CAMS = CAMS[10:12]
+IMAGES_DIR = os.path.join(os.getcwd(), 'images')
+VIDEOS_DIR = os.path.join(os.getcwd(), 'videos')

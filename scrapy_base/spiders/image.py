@@ -21,4 +21,4 @@ class ImageSpider(scrapy.Spider):
 
                 yield ImageItem(
                     id=image_json['imageid'],
-                    link=image_json['url'])
+                    url=image_json['url'])

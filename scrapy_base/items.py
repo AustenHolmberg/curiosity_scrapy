@@ -10,4 +10,4 @@ import scrapy
 
 class ImageItem(scrapy.Item):
     id = scrapy.Field()
-    link = scrapy.Field()
+    url = scrapy.Field()
