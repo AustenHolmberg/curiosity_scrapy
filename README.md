@@ -4,7 +4,12 @@
 #### Technologies:
 - Pipenv (Python 3.6)
 - FFmpeg
-
-#### Libraries:
 - Scrapy
-- Requests
+#### Setup:
+`
+pipenv install
+`
+#### Example usage:
+`
+pipenv run python manage.py 12-1-2019 12-20-2019 front
+`
