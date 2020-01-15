@@ -11,6 +11,10 @@
 pipenv install
 `
 #### Usage:
+##### Example:
+`
+pipenv run python manage.py 12-1-2019 12-20-2019 front
+`
 
 Positional arguments:
   - start_date : the start of the date range to scrape from
@@ -22,8 +26,3 @@ Currently, cams can be:
  - rear (rear cameras)
  - lnav (left navcams)
  - rnav (right navcams)
-
-##### Example:
-`
-pipenv run python manage.py 12-1-2019 12-20-2019 front
-`
