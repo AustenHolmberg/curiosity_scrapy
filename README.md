@@ -11,12 +11,12 @@
 pipenv install
 `
 #### Usage:
-`
+
 Positional arguments:
-  start_date : the start of the date range to scrape from
-  end_date : the end of the date range to scrape from
-  cams : which cameras to scrape from
-`
+  - start_date : the start of the date range to scrape from
+  - end_date : the end of the date range to scrape from
+  - cams : which cameras to scrape from
+
 Currently, cams can be:
  - front (front cameras)
  - rear (rear cameras)
