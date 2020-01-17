@@ -1,7 +1,7 @@
 ## Curiosity Timelapse Generator
 #### Python script with CLI that scrapes images taken by the Curiosity rover's cameras and generates timelapses. Extracts image data from Nasa's Public Mars API.
 
-[Imgur](https://i.imgur.com/ap7TKrO.gifv)
+![](https://i.imgur.com/ap7TKrO.gifv)
 
 #### Technologies:
 - Pipenv (Python 3.6)
