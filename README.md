@@ -10,8 +10,7 @@
 `
 pipenv install
 `
-#### Usage:
-##### Example:
+#### Example Usage:
 `
 pipenv run python manage.py 12-1-2019 12-20-2019 front
 `
@@ -20,6 +19,7 @@ Positional arguments:
   - start_date : the start of the date range to scrape from
   - end_date : the end of the date range to scrape from
   - cams : which cameras to scrape from
+  -s (optional) : only scrape images / don't generate video
 
 Currently, cams can be:
  - front (front cameras)
