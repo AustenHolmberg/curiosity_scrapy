@@ -32,7 +32,7 @@ class CuriosityScrapy:
         process.start()
         return self.crawler_results
 
-    def run(self, start_date, end_date, cams, timelapse):
+    def run(self, start_date, end_date, cams, scrape_only):
         vid_name = ''.join([start_date, end_date, ''.join(cams)])
         vid_hash = hashlib.md5(vid_name.encode('utf-8')).hexdigest()
         vid_name = '{}.mp4'.format(vid_hash)
@@ -49,7 +49,7 @@ class CuriosityScrapy:
         # Download the images we need that we don't already have
         image_paths = []
         downloaded_images = os.listdir(settings.IMAGES_DIR)
-        logging.info("Downloading {} images...".format(len(images)))
+        logging.info("Downloading {} images to {}".format(len(images), settings.IMAGES_DIR))
         with progressbar.ProgressBar(max_value=len(images)) as bar:
             i = 0
             for image in images:
@@ -63,7 +63,7 @@ class CuriosityScrapy:
                 i += 1
                 bar.update(i)
 
-        if timelapse == True:
+        if scrape_only == False:
             # Need to write a text file containing a list of input files for FFmpeg concat
             with open(abs_list_file, 'w') as list_file_out:
                 list_file_out.writelines(["file '{}'\n".format(path) for path in image_paths])
@@ -77,10 +77,10 @@ parser = argparse.ArgumentParser(description='Curiosity image scraper and timela
 parser.add_argument('start_date', action="store")
 parser.add_argument('end_date', action="store")
 parser.add_argument('cams', action="store")
-parser.add_argument('-t', action="store_false", default=True)
+parser.add_argument('-s', action="store_true", default=False)
 
 args = parser.parse_args()
-args = [args.start_date, args.end_date, args.cams, args.t]
+args = [args.start_date, args.end_date, args.cams, args.s]
 args[2] = settings.CAM_MAP[args[2]]
 curiosity = CuriosityScrapy()
 curiosity.run(*args)
