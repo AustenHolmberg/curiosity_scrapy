@@ -1,6 +1,5 @@
 ## Curiosity Timelapse Generator
-#### Every day, the Curiosity rover on Mars sends back images of what it sees. 
-#### This is a Python script with CLI that selectively scrapes the images from Nasa's public Mars API and generates timelapses.
+#### Every day, the Curiosity rover on Mars sends back images of what it sees. This is a Python script with CLI that selectively scrapes the images from Nasa's public Mars API and generates timelapses.
 
 <p align="center">
   <img src="sample.gif?raw=true" width="320px">
