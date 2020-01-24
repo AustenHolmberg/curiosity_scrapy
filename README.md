@@ -4,6 +4,7 @@
 <p align="center">
   <img src="sample.gif?raw=true" width="320px">
 </p>
+### Please don't blast NASA too much
 
 #### Prerequisites:
 - Pipenv (Python 3.6)
@@ -19,9 +20,9 @@ pipenv run python manage.py 12-1-2019 12-20-2019 front
 `
 
 Positional arguments:
-  - start_date (yy-mm-dddd) : the start of the date range to scrape from
-  - end_date (yy-mm-dddd) : the end of the date range to scrape from
-  - cams : which cameras to scrape from
+  - start_date (dd-mm-yyyy) : the start of the date range to scrape from
+  - end_date (dd-mm-yyyy) : the end of the date range to scrape from
+  - cams {front|rear|lnav|rnav} : which cameras to scrape from
   - -s (optional) : only scrape images / don't generate video
 
 Currently, cams can be:
