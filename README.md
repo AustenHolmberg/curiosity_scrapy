@@ -4,9 +4,11 @@
 <p align="center">
   <img src="sample.gif?raw=true" width="320px">
 </p>
+
 <p align="center">
-#### Please don't blast NASA too much
+Please don't blast NASA too much
 </p>
+
 #### Prerequisites:
 - Pipenv (Python 3.6)
 - FFmpeg
