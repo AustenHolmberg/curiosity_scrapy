@@ -11,6 +11,3 @@ requests = "*"
 scrapy = "*"
 ffmpy = "*"
 progressbar2 = "*"
-
-[requires]
-python_version = "3.6"
