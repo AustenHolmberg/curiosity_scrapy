@@ -11,3 +11,4 @@ import scrapy
 class ImageItem(scrapy.Item):
     id = scrapy.Field()
     url = scrapy.Field()
+    date_taken = scrapy.Field()

@@ -1,11 +1,25 @@
 import os, logging, requests, hashlib, subprocess
 import progressbar, settings, urllib.request
+import dateutil.parser
 from scrapy import signals
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy.signalmanager import SignalManager, dispatcher
 from scrapy_base.spiders.image import ImageSpider
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw 
 from utils import ext_from_url
+
+
+def draw_subtitle(filepath, subtitled_filepath, raw_datetime):
+	formatted_datetime = dateutil.parser.isoparse(raw_datetime).strftime('%Y-%m-%d')
+	img = Image.open(filepath)
+	draw = ImageDraw.Draw(img)
+	font = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf", 22)
+	draw.text((460, 950), formatted_datetime, 255, font=font)
+	img.save(subtitled_filepath)
+
 
 class CuriosityScrapy:
     def __init__(self):
@@ -27,6 +41,7 @@ class CuriosityScrapy:
             end_date=end_date,
             filter_str='%7C'.join(cams)
         )
+        print(start_url)
         process = CrawlerProcess(get_project_settings())
         process.crawl(ImageSpider, start_url=start_url, filters=filters)
         process.start()
@@ -56,10 +71,14 @@ class CuriosityScrapy:
                 filetype = ext_from_url(image['url'])
                 filename = image['id'] + filetype
                 abs_img_path = os.path.join(settings.IMAGES_DIR, filename)
+                subtitled_filepath = abs_img_path.split('.jpg')[0] + '_subtitled.jpg'
 
                 if filename not in downloaded_images:
                     urllib.request.urlretrieve(image['url'], abs_img_path)
-                image_paths.append(abs_img_path)
+                if subtitled_filepath not in downloaded_images:
+                    draw_subtitle(abs_img_path, subtitled_filepath, image['date_taken'])
+
+                image_paths.append(subtitled_filepath)
                 i += 1
                 bar.update(i)
 

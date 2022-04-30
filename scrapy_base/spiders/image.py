@@ -4,7 +4,7 @@ from scrapy_base.items import ImageItem
 
 class ImageSpider(scrapy.Spider):
     name = 'image'
-    allowed_domains = ['mars.jpl.nasa.gov']
+    allowed_domains = ['mars.nasa.gov']
 
     def __init__(self, *args, **kwargs):
         super(ImageSpider, self).__init__(*args, **kwargs)
@@ -21,4 +21,5 @@ class ImageSpider(scrapy.Spider):
 
                 yield ImageItem(
                     id=image_json['imageid'],
-                    url=image_json['url'])
+                    url=image_json['url'],
+                    date_taken=image_json['date_taken'])
