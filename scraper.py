@@ -16,7 +16,7 @@ def draw_subtitle(filepath, subtitled_filepath, raw_datetime):
 	formatted_datetime = dateutil.parser.isoparse(raw_datetime).strftime('%Y-%m-%d')
 	img = Image.open(filepath)
 	draw = ImageDraw.Draw(img)
-	font = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf", 22)
+	font = ImageFont.truetype(settings.FONT_FILE, 22)
 	draw.text((460, 950), formatted_datetime, 255, font=font)
 	img.save(subtitled_filepath)
 
@@ -41,7 +41,7 @@ class CuriosityScrapy:
             end_date=end_date,
             filter_str='%7C'.join(cams)
         )
-        print(start_url)
+        logging.info(f"Getting images list from {start_url}")
         process = CrawlerProcess(get_project_settings())
         process.crawl(ImageSpider, start_url=start_url, filters=filters)
         process.start()
@@ -88,6 +88,6 @@ class CuriosityScrapy:
                 list_file_out.writelines(["file '{}'\n".format(path) for path in image_paths])
             os.chmod(abs_list_file, 0o775)
 
-            logging.info("Compiling video...")
+            logging.info("Generating video...")
             subprocess.call(settings.FFMPEG_COMMAND.format(abs_list_file, abs_vid_path), shell=True)
             logging.info("Saved video as {}".format(abs_vid_path))
