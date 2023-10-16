@@ -1,5 +1,5 @@
 ## Curiosity Timelapse Generator
-#### This is a Python script with CLI that scrapes curiosity images from Nasa's public Mars API and generates timelapses as MP4.
+#### Python script with CLI that scrapes curiosity images from Nasa's public Mars API and generates timelapses as MP4.
 
 <p align="center">
   <img src="sample.gif?raw=true" width="320px">
